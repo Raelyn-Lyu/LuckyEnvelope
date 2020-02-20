@@ -1,10 +1,11 @@
-package com.imooc.luckymoney;
+package com.imooc.luckymoney.domain;
 
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 
 @Entity
@@ -13,6 +14,7 @@ public class Luckymoney {
     @GeneratedValue
     private Integer id;
 
+    @Min(value = 2, message = "Value cannot be less than $2.")
     private BigDecimal money;
 
     private String producer;

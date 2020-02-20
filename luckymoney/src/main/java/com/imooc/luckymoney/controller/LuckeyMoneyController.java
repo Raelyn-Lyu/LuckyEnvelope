@@ -1,8 +1,15 @@
-package com.imooc.luckymoney;
+package com.imooc.luckymoney.controller;
 
+import com.imooc.luckymoney.domain.LimitConfig;
+import com.imooc.luckymoney.domain.Luckymoney;
+import com.imooc.luckymoney.repository.LuckymoneyRepository;
+import com.imooc.luckymoney.Service.LuckymoneyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -24,12 +31,14 @@ public class LuckeyMoneyController {
     }
 
     @PostMapping("/luckymoneys")
-    public Luckymoney create(@RequestParam("producer") String producer,
-                             @RequestParam("money")BigDecimal money
-                             ) {
-        Luckymoney luckymoney = new Luckymoney();
-        luckymoney.setProducer(producer);
-        luckymoney.setMoney(money);
+    public Luckymoney create(@Valid Luckymoney luckymoney, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getFieldError().getDefaultMessage());
+            return null;
+        }
+
+        luckymoney.setProducer(luckymoney.getProducer());
+        luckymoney.setMoney(luckymoney.getMoney());
         return repository.save(luckymoney);
     }
 
