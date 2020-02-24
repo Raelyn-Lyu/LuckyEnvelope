@@ -56,4 +56,15 @@ public class Luckymoney {
     public void setConsumer(String consumer) {
         this.consumer = consumer;
     }
+
+    @Override
+    public String toString() {
+        return "Luckymoney{" +
+                "id=" + id +
+                ", money=" + money +
+                ", producer='" + producer + '\'' +
+                ", consumer='" + consumer + '\'' +
+                '}';
+    }
+
 }

@@ -1,9 +1,12 @@
 package com.imooc.luckymoney.controller;
 
+import com.imooc.luckymoney.aspect.HttpAspect;
 import com.imooc.luckymoney.domain.LimitConfig;
 import com.imooc.luckymoney.domain.Luckymoney;
 import com.imooc.luckymoney.repository.LuckymoneyRepository;
 import com.imooc.luckymoney.Service.LuckymoneyService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindingResult;
@@ -16,6 +19,9 @@ import java.util.Optional;
 
 @RestController
 public class LuckeyMoneyController {
+
+    private final static Logger logger = LoggerFactory.getLogger(LuckeyMoneyController.class);
+
     @Autowired
     private LuckymoneyRepository repository;
 
@@ -27,6 +33,7 @@ public class LuckeyMoneyController {
 
     @GetMapping("/luckymoneys")
     public List<Luckymoney> list() {
+        logger.info("GET ALL LIST");
         return repository.findAll();
     }
 
@@ -36,7 +43,7 @@ public class LuckeyMoneyController {
             System.out.println(bindingResult.getFieldError().getDefaultMessage());
             return null;
         }
-
+        logger.info("POST MONEY");
         luckymoney.setProducer(luckymoney.getProducer());
         luckymoney.setMoney(luckymoney.getMoney());
         return repository.save(luckymoney);
