@@ -3,8 +3,10 @@ package com.imooc.luckymoney.controller;
 import com.imooc.luckymoney.aspect.HttpAspect;
 import com.imooc.luckymoney.domain.LimitConfig;
 import com.imooc.luckymoney.domain.Luckymoney;
+import com.imooc.luckymoney.domain.Result;
 import com.imooc.luckymoney.repository.LuckymoneyRepository;
 import com.imooc.luckymoney.Service.LuckymoneyService;
+import com.imooc.luckymoney.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,15 +40,15 @@ public class LuckeyMoneyController {
     }
 
     @PostMapping("/luckymoneys")
-    public Luckymoney create(@Valid Luckymoney luckymoney, BindingResult bindingResult) {
+    public Result<Luckymoney> create(@Valid Luckymoney luckymoney, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getFieldError().getDefaultMessage());
-            return null;
+            return ResultUtil.error(1, bindingResult.getFieldError().getDefaultMessage());
         }
-        logger.info("POST MONEY");
+//        logger.info("POST MONEY");
         luckymoney.setProducer(luckymoney.getProducer());
         luckymoney.setMoney(luckymoney.getMoney());
-        return repository.save(luckymoney);
+
+        return ResultUtil.success(repository.save(luckymoney));
     }
 
     @RequestMapping("/luckymoneys/{id}")
@@ -72,6 +74,11 @@ public class LuckeyMoneyController {
     @PostMapping("/luckymoneys/two")
     public void createTwo() {
         service.createTwo();
+    }
+
+    @GetMapping("/luckymoneys/getVal/{id}")
+    public void getValue(@PathVariable("id") Integer id) throws Exception{
+        service.getValue(id);
     }
 
 

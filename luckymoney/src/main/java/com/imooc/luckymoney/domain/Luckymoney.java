@@ -14,6 +14,7 @@ public class Luckymoney {
     @GeneratedValue
     private Integer id;
 
+
     @Min(value = 2, message = "Value cannot be less than $2.")
     private BigDecimal money;
 
